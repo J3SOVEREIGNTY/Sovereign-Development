@@ -39,7 +39,7 @@ This pilot is an initial operating signal, not proof that costs remain below tar
 
 The implementation in this branch emits one server log event per editor initialization when both pilot flags are enabled. It records elapsed time, npm install duration and exit code, outcome, app revision, UTC month, and a month-scoped HMAC actor key. The browser submits no code, file path, project identifier, email, or raw user ID. Only accounts currently marked free are logged. Event IDs support duplicate removal in analysis.
 
-The event sink is Vercel runtime logs. The event route is disabled unless both COST_PILOT_ENABLED and NEXT_PUBLIC_COST_PILOT_ENABLED are set to true. The code change does not enable either flag or deploy anything. Count accepted event IDs from the server logs and reconcile against pilot sessions; the capture-rate threshold is 95%. Export only the minimum fields for analysis and delete the exported row-level pilot data after 30 days, subject to the provider's available retention controls.
+The event sink is Vercel runtime logs. The event route is disabled unless both COST_PILOT_ENABLED and NEXT_PUBLIC_COST_PILOT_ENABLED are set to true. The code change does not enable either flag or deploy anything. The client currently sends a single fire-and-forget request with no retry and no independent attempted-session denominator. Accepted server log events alone cannot establish the 95% telemetry capture threshold. Before the cohort starts, select and verify an independent denominator source, inject a dropped-request case, and demonstrate that the capture-rate calculation detects it. Export only the minimum fields for analysis and delete the exported row-level pilot data after 30 days, subject to the provider's available retention controls.
 
 This instrumentation does not estimate provider bills. Reconcile actual Vercel, Supabase, Cloudflare, AI, storage, egress, email, monitoring, Stripe, and WebContainer costs from provider-side billing evidence. Include the telemetry route and log retention in the measured cost.
 
@@ -62,6 +62,8 @@ Official references:
 - The Peregrine Supabase project returned INACTIVE. The database cannot currently serve as a live pilot dependency without restoration and verification.
 - The Cloudflare connector is available, but read-only Workers, Pages, and billing inventory calls fail with API authentication error 10000; no Cloudflare usage or billing evidence was obtained.
 - The production migration remains open: key rotation, Vercel repointing, and auth, Stripe webhook, database, and collaboration smoke tests remain unverified.
+- The one-shot telemetry path has no independent editor-session attempt denominator; the 95% capture criterion is not currently measurable.
+- Netlify returned no matching Peregrine site, and Linear returned no dedicated Peregrine project or gate item. The Sentry API could not be queried because its required auth token, organization, and project settings are absent; no deployment, incident, or monitoring-cost evidence was obtained from those sources.
 - No WebContainer API price or signed license terms are publicly available in the sources above. The commercial-use requirement is clear; the price and negotiated scope remain unresolved pending written vendor terms.
 
 ## Evidence record
