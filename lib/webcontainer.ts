@@ -52,7 +52,7 @@ export async function bootProject(files: Record<string, string>): Promise<WebCon
         npmInstallMs = Math.round(performance.now() - installStartedAt);
       }
     }
-    outcome = "success";
+    outcome = npmInstallExitCode === null || npmInstallExitCode === 0 ? "success" : "failure";
     return container;
   } finally {
     recordCostPilotSession({
