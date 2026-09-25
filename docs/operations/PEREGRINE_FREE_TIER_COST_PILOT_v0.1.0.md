@@ -59,7 +59,7 @@ Official references:
 
 - No cost result is recorded. The pilot has not run.
 - The connected Vercel account returned no teams, so the project, deployment environment, and runtime logs cannot be inspected or configured here.
-- The Peregrine Supabase project returned INACTIVE. The database cannot currently serve as a live pilot dependency without restoration and verification.
+- Supabase restore was accepted, but the project remains COMING_UP on repeated checks. Migration/table queries returned empty results before readiness; they are not treated as verified schema state. Recheck migrations and tables when status is ACTIVE.
 - The Cloudflare connector is available, but read-only Workers, Pages, and billing inventory calls fail with API authentication error 10000; no Cloudflare usage or billing evidence was obtained.
 - The production migration remains open: key rotation, Vercel repointing, and auth, Stripe webhook, database, and collaboration smoke tests remain unverified.
 - The one-shot telemetry path has no independent editor-session attempt denominator; the 95% capture criterion is not currently measurable.
