@@ -59,7 +59,9 @@ Official references:
 
 - No cost result is recorded. The pilot has not run.
 - The connected Vercel account returned no teams, so the project, deployment environment, and runtime logs cannot be inspected or configured here.
-- Supabase restore was accepted, but the project remains COMING_UP on repeated checks. Migration/table queries returned empty results before readiness; they are not treated as verified schema state. Recheck migrations and tables when status is ACTIVE.
+- The Supabase project is now ACTIVE_HEALTHY. Live inspection verified migration `20260513032045` (`create_tables`) and the `public.users`, `public.projects`, and `public.files` tables; each currently reports 0 rows.
+- The Supabase security advisor reports RLS disabled on all three public tables at ERROR / EXTERNAL severity. The enabled key inventory includes both a legacy `anon` key and a modern publishable key; key values are not recorded. Do not enable RLS without defining the access policy, because doing so without policies blocks data access. Review the Clerk-authenticated server path and database role before selecting policies.
+- Legacy `anon` key rotation remains unverified; the connector exposes key metadata but no key-rotation operation.
 - The Cloudflare connector is available, but read-only Workers, Pages, and billing inventory calls fail with API authentication error 10000; no Cloudflare usage or billing evidence was obtained.
 - The production migration remains open: key rotation, Vercel repointing, and auth, Stripe webhook, database, and collaboration smoke tests remain unverified.
 - The one-shot telemetry path has no independent editor-session attempt denominator; the 95% capture criterion is not currently measurable.
